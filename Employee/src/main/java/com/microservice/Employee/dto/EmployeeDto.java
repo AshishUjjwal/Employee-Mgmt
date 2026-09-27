@@ -1,10 +1,12 @@
 package com.microservice.Employee.dto;
 
+import java.io.Serializable;
+
 /**
  * Data Transfer Object (DTO) for the Employee.
  * It is used to transfer employee data between the client and the server without exposing the internal database entity.
  */
-public class EmployeeDto {
+public class EmployeeDto implements Serializable {
     private Long id;
     private String name;
     private String email;

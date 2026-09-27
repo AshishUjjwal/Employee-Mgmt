@@ -11,6 +11,9 @@ import com.microservice.Employee.exception.ResourceNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+
 /**
  * Service class containing business logic for Employee operations.
  * It acts as an intermediary between the EmployeeController and EmployeeRepository.
@@ -21,23 +24,27 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository repository;
     
+    @CacheEvict(value = "employees", allEntries = true)
     public EmployeeDto saveEmployee(EmployeeDto dto) {
         Employee employeeEntity = AppUtils.dtoToEntity(dto);  // Convert DTO to Entity
         Employee savedEntity = repository.save(employeeEntity); // Save Entity to database. The repository automatically writes an INSERT INTO ... SQL query behind the scenes and saves the employee to your database.
         return AppUtils.entityToDto(savedEntity); // Convert Entity to DTO
     }
 
+    @Cacheable(value = "employees")
     public List<EmployeeDto> getAllEmployee() {
         List<Employee> allEmployee = repository.findAll();
         return allEmployee.stream().map(AppUtils::entityToDto).collect(Collectors.toList());
     }
 
+    @Cacheable(value = "employees", key = "#id")
     public EmployeeDto getEmployeeById(Long id) {
         Employee employee = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
         return AppUtils.entityToDto(employee);
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     public EmployeeDto updateEmployee(Long id, EmployeeDto dto) {
         Employee existingEmployee = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
@@ -51,6 +58,7 @@ public class EmployeeService {
         return AppUtils.entityToDto(updatedEmployee);
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     public void deleteEmployee(Long id) {
         Employee existingEmployee = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));

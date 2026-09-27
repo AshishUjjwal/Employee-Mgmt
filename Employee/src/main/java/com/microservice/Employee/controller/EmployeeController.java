@@ -2,7 +2,6 @@ package com.microservice.Employee.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +23,11 @@ import com.microservice.Employee.services.EmployeeService;
 @RestController
 @RequestMapping("/v1/Data")
 public class EmployeeController {
-    @Autowired 
-    private EmployeeService service;
+    private final EmployeeService service;
+
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
+    }
 
     @GetMapping("/employee")
     public String getEmployee() {
