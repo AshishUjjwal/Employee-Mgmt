@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.web.client.RestTemplate;
+import com.microservice.Employee.dto.AddressResponseDto;
+import com.microservice.Employee.dto.EmployeeWithAddressDto;
 
 /**
  * Service class containing business logic for Employee operations.
@@ -23,6 +26,9 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository repository;
+    
+    @Autowired
+    private RestTemplate restTemplate;
     
     @CacheEvict(value = "employees", allEntries = true)
     public EmployeeDto saveEmployee(EmployeeDto dto) {
@@ -63,5 +69,21 @@ public class EmployeeService {
         Employee existingEmployee = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
         repository.delete(existingEmployee);
+    }
+
+    public EmployeeWithAddressDto getEmployeeWithAddress(Long id) {
+        // 1. Fetch Employee from our Database
+        EmployeeDto employee = getEmployeeById(id);
+        
+        // 2. Call Address Microservice using its Eureka registered name "ADDRESS"
+        // The @LoadBalanced RestTemplate will automatically load balance and resolve "ADDRESS" to an actual IP & Port!
+        AddressResponseDto addressResponse = null;
+        try {
+            addressResponse = restTemplate.getForObject("http://ADDRESS/v1/address/" + id, AddressResponseDto.class);
+        } catch (Exception e) {
+            System.out.println("Address service is down or address not found.");
+        }
+        
+        return new EmployeeWithAddressDto(employee, addressResponse);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.microservice.Employee.dto.EmployeeDto;
+import com.microservice.Employee.dto.EmployeeWithAddressDto;
 import com.microservice.Employee.services.EmployeeService;
 
 /**
@@ -62,5 +63,10 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id){
         service.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getEmployeeWithAddress/{id}")
+    public ResponseEntity<EmployeeWithAddressDto> getEmployeeWithAddress(@PathVariable Long id){
+        return ResponseEntity.ok(service.getEmployeeWithAddress(id));
     }
 }

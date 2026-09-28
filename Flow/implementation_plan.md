@@ -40,6 +40,10 @@ This document outlines the step-by-step roadmap to build, secure, containerize, 
 *   **Goal:** Connect Employee and Address services to Eureka.
 *   **Tasks:** Add Eureka Client dependency to both services. Add `@EnableDiscoveryClient` and configure them to point to `localhost:8761`.
 
+### 3.3 Inter-Service Communication & Load Balancing
+*   **Goal:** Allow Employee Service to dynamically fetch data from the Address Service.
+*   **Tasks:** Create a `@LoadBalanced RestTemplate`. Create `AddressResponseDto` and `EmployeeWithAddressDto` to map JSON data. Update `EmployeeService` to call `http://ADDRESS/v1/address/{id}` to demonstrate Eureka name resolution and round-robin load balancing.
+
 ---
 
 ## Phase 4: API Gateway & Security (Hard)
@@ -77,5 +81,5 @@ This document outlines the step-by-step roadmap to build, secure, containerize, 
 *Enterprise-grade scaling and networking. The steepest learning curve.*
 
 ### 7.1 KIND / Minikube
-*   **Goal:** Deploy the containers into a Kubernetes cluster.
-*   **Tasks:** Install KIND. Write Kubernetes `.yaml` manifests (Deployments, Services, ConfigMaps, Secrets, Ingress). Apply them to the cluster. Manage internal DNS and pod scaling.
+*   **Goal:** Deploy the containers into a Kubernetes cluster and manage advanced networking.
+*   **Tasks:** Install KIND. Write Kubernetes `.yaml` manifests (Deployments, Services, ConfigMaps, Secrets, Ingress). Apply them to the cluster. Configure native Kubernetes Load Balancing (ClusterIP/Ingress) to distribute traffic across pods, and manage Horizontal Pod Autoscaling (HPA) to set dynamic server limits.
