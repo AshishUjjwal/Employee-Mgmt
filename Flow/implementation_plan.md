@@ -83,3 +83,37 @@ This document outlines the step-by-step roadmap to build, secure, containerize, 
 ### 7.1 KIND / Minikube
 *   **Goal:** Deploy the containers into a Kubernetes cluster and manage advanced networking.
 *   **Tasks:** Install KIND. Write Kubernetes `.yaml` manifests (Deployments, Services, ConfigMaps, Secrets, Ingress). Apply them to the cluster. Configure native Kubernetes Load Balancing (ClusterIP/Ingress) to distribute traffic across pods, and manage Horizontal Pod Autoscaling (HPA) to set dynamic server limits.
+
+---
+
+## Phase 8: Advanced Spring Cloud Concepts (Optional)
+*Refining the architecture with industry-standard resilience and cleaner code.*
+
+### 8.1 Declarative REST Clients (OpenFeign)
+*   **Goal:** Replace the manual `RestTemplate` logic with cleaner interfaces.
+*   **Tasks:** Add `spring-cloud-starter-openfeign`. Create an interface annotated with `@FeignClient(name="ADDRESS")` to automatically handle HTTP calls and load balancing without boilerplate code.
+
+### 8.2 Resilience & Fault Tolerance (Circuit Breakers)
+*   **Goal:** Prevent cascading failures when a microservice is down or slow.
+*   **Tasks:** Implement `Resilience4j`. Wrap the inter-service calls with `@CircuitBreaker` and `@Retry` to provide default "fallback" data instead of hanging requests and crashing the system.
+
+---
+
+## Phase 9: The Spring Ecosystem Horizon (Future Exploration)
+*Massive scale, asynchronous processing, and enterprise security.*
+
+### 9.1 Event-Driven Architecture (Kafka / RabbitMQ)
+*   **Goal:** Move from synchronous REST calls to asynchronous message queues.
+*   **Tasks:** Install Apache Kafka. Implement Producers and Consumers to let microservices communicate by publishing and subscribing to events (e.g., "EmployeeCreatedEvent") without waiting for immediate responses.
+
+### 9.2 Advanced Spring Security (OAuth2 / OIDC)
+*   **Goal:** Implement enterprise-grade Single Sign-On (SSO).
+*   **Tasks:** Replace the custom JWT login with an OAuth2 Provider (like Keycloak or Okta) to support "Login with Google" and complex Role-Based Access Control (RBAC).
+
+### 9.3 Reactive Programming (Spring WebFlux)
+*   **Goal:** Maximize server throughput using non-blocking I/O.
+*   **Tasks:** Rewrite a service using Spring WebFlux and Project Reactor to handle thousands of concurrent connections without exhausting standard Tomcat threads.
+
+### 9.4 Spring Batch
+*   **Goal:** Process massive amounts of data in the background.
+*   **Tasks:** Write a scheduled batch job to process or export a million employee records offline using automated chunks, readers, and writers.
