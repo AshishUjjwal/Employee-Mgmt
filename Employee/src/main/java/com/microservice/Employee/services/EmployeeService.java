@@ -86,4 +86,34 @@ public class EmployeeService {
         
         return new EmployeeWithAddressDto(employee, addressResponse);
     }
+
+    /*
+     * =========================================================================
+     * QUICK REST-TEMPLATE REFERENCE:
+     * =========================================================================
+     * 
+     * 1. getForObject(...) 
+     *    - What it does: 
+     *        1. Sends an HTTP GET request to the URL you provide.
+     *        2. Takes the raw JSON text that the server responds with, and automatically 
+     *           converts (maps) it into the Java class you specify (e.g., AddressResponseDto.class).
+     *    - How it converts JSON: 
+     *        Behind the scenes, Spring Boot uses a library called "Jackson" (specifically 
+     *        an ObjectMapper). Jackson looks at the JSON keys (like "street") and searches for 
+     *        an exact matching variable name in your DTO class (String street). If it finds a match, 
+     *        it uses the getter/setter methods to inject the data into your Java object automatically!
+     *    - Example: restTemplate.getForObject("http://ADDRESS/...", AddressResponseDto.class)
+     * 
+     * 2. postForObject(...)
+     *    - Performs an HTTP POST request.
+     *    - Converts your Java Object into JSON, sends it to the server to save, and returns the response.
+     * 
+     * 3. put(...) / delete(...)
+     *    - Performs HTTP PUT (update) or DELETE requests. They do not return data.
+     * 
+     * 4. exchange(...)
+     *    - The "Master Key" method. Can perform any HTTP method (GET, POST, PUT, DELETE).
+     *    - Crucially, it allows you to attach custom HTTP Headers (like Security Authorization tokens).
+     * =========================================================================
+     */
 }
