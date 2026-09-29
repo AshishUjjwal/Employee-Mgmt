@@ -1,10 +1,12 @@
-com\microservice\AuthService\service\JwtService.class
 com\microservice\AuthService\service\AuthService.class
 com\microservice\AuthService\config\CustomUserDetails.class
-com\microservice\AuthService\AuthServiceApplication.class
+com\microservice\AuthService\utils\AppUtils.class
 com\microservice\AuthService\controller\AuthController.class
 com\microservice\AuthService\dto\AuthRequest.class
 com\microservice\AuthService\repository\UserCredentialRepository.class
 com\microservice\AuthService\entity\UserCredential.class
 com\microservice\AuthService\config\CustomUserDetailsService.class
+com\microservice\AuthService\service\JwtService.class
+com\microservice\AuthService\AuthServiceApplication.class
+com\microservice\AuthService\dto\RegisterRequest.class
 com\microservice\AuthService\config\SecurityConfig.class

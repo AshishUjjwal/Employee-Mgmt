@@ -6,6 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * UserCredential represents the data model for the user authentication details.
+ * It is mapped to a physical table named "user_credentials" in the MySQL database.
+ */
 @Entity
 @Table(name = "user_credentials")
 public class UserCredential {
@@ -13,8 +17,12 @@ public class UserCredential {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String username;
+    
+    // The password will be stored in an encrypted/hashed format (using BCrypt).
     private String password;
+    
     private String email;
 
     public UserCredential() {
