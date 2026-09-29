@@ -8,58 +8,58 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
-import com.microservice.address.entity.Address;
-import com.microservice.address.repository.AddressRepository;
+import com.microservice.address.dto.AddressDto;
+import com.microservice.address.service.AddressService;
 
 @RestController
 @RequestMapping("/v1/address")
 public class AddressController {
 
-    private final AddressRepository repository;
+    private final AddressService service;
 
-    public AddressController(AddressRepository repository) {
-        this.repository = repository;
+    public AddressController(AddressService service) {
+        this.service = service;
     }
 
     @PostMapping
     @CacheEvict(value = "addresses", allEntries = true)
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        Address savedAddress = repository.save(address);
+    public ResponseEntity<AddressDto> createAddress(@RequestBody AddressDto addressDto) {
+        AddressDto savedAddress = service.saveAddress(addressDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAddress);
     }
 
     @GetMapping
     @Cacheable(value = "addresses")
-    public ResponseEntity<List<Address>> getAllAddresses() {
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<AddressDto>> getAllAddresses() {
+        return ResponseEntity.ok(service.getAllAddresses());
     }
 
     @GetMapping("/{id}")
     @Cacheable(value = "addresses", key = "#id")
-    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<AddressDto> getAddressById(@PathVariable Long id) {
+        AddressDto address = service.getAddressById(id);
+        if (address != null) {
+            return ResponseEntity.ok(address);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     @CacheEvict(value = "addresses", allEntries = true)
-    public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody Address address) {
-        return repository.findById(id)
-                .map(existing -> {
-                    existing.setStreet(address.getStreet());
-                    existing.setCity(address.getCity());
-                    existing.setZipCode(address.getZipCode());
-                    return ResponseEntity.ok(repository.save(existing));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<AddressDto> updateAddress(@PathVariable Long id, @RequestBody AddressDto addressDto) {
+        AddressDto updatedAddress = service.updateAddress(id, addressDto);
+        if (updatedAddress != null) {
+            return ResponseEntity.ok(updatedAddress);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(value = "addresses", allEntries = true)
     public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        AddressDto address = service.getAddressById(id);
+        if (address != null) {
+            service.deleteAddress(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
