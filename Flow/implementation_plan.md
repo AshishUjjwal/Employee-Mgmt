@@ -97,6 +97,10 @@ This document outlines the step-by-step roadmap to build, secure, containerize, 
 *   **Goal:** Prevent cascading failures when a microservice is down or slow.
 *   **Tasks:** Implement `Resilience4j`. Wrap the inter-service calls with `@CircuitBreaker` and `@Retry` to provide default "fallback" data instead of hanging requests and crashing the system.
 
+### 8.3 Asynchronous Processing & Multithreading
+*   **Goal:** Improve application performance by running non-blocking background tasks.
+*   **Tasks:** Enable `@EnableAsync` in Spring Boot. Implement `@Async` methods for tasks that don't need to block the main thread (like sending emails or processing logs). Configure a `ThreadPoolTaskExecutor` to understand how threads are managed in Java. Experience the difference between Synchronous (waiting for a task to finish) and Asynchronous (fire-and-forget) operations.
+
 ---
 
 ## Phase 9: The Spring Ecosystem Horizon (Future Exploration)
@@ -117,3 +121,7 @@ This document outlines the step-by-step roadmap to build, secure, containerize, 
 ### 9.4 Spring Batch
 *   **Goal:** Process massive amounts of data in the background.
 *   **Tasks:** Write a scheduled batch job to process or export a million employee records offline using automated chunks, readers, and writers.
+
+### 9.5 API Documentation (Swagger / OpenAPI)
+*   **Goal:** Automatically generate interactive API documentation.
+*   **Tasks:** Integrate `springdoc-openapi-starter-webmvc-ui` to automatically generate Swagger UI for all microservices, allowing easy testing and exploration of the REST endpoints without Postman.

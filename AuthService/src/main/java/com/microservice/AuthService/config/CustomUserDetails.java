@@ -29,6 +29,11 @@ public class CustomUserDetails implements UserDetails {
      * Returns the authorities (roles/permissions) granted to the user.
      * Currently returning null as we haven't implemented roles (like ADMIN/USER).
      */
+    // This method tells Spring Security what permissions the logged-in user has.
+    // For example, if you wanted to have an "ADMIN" user and a "USER" user, you would return a list containing "ROLE_ADMIN" or "ROLE_USER" here.
+    // In your current code, you are returning null, which means the user has no specific roles (or you are treating everyone as a basic user without special permissions).
+    // To add roles, you would typically do something like:
+    // return List.of(new SimpleGrantedAuthority(userCredential.getRole()));
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

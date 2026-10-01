@@ -29,6 +29,20 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @return UserDetails A Spring Security object containing the user's data (CustomUserDetails).
      * @throws UsernameNotFoundException If the user doesn't exist in the database.
      */
+
+    // This is the method that Spring Security calls to get user information when someone tries to log in.
+
+    // public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    // username: The identifier (email or username) the user typed into the login form.
+
+    // @throws UsernameNotFoundException: This is an exception that gets thrown if the username is not found in the database. It's a way to tell Spring Security, "This user doesn't exist, so deny the login attempt."
+
+    // throws UsernameNotFoundException: This is a Java language feature called "exception declaration." It's like putting up a warning sign that says, "Be careful! When you call this method, it might fail with a UsernameNotFoundException, and you should be prepared to handle it (or let it be handled by Spring Security)."
+
+    // In this specific case, you are intentionally throwing this exception if the user is not found:
+    // .orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + username));
+
+    // So, the "throws" keyword here is essential because you are explicitly telling the Java compiler that this method is allowed to throw that specific error.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Find the user entity from the database
