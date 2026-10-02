@@ -48,6 +48,9 @@ services:
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
       - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
       - EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS=60
+      - http_proxy=
+      - https_proxy=
+      - no_proxy=*
     depends_on:
       - eureka-server
 
