@@ -1,0 +1,28 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      routes:
+        - id: employee_route
+          uri: lb://EMPLOYEE
+          predicates:
+            - Path=/employee/**
+        - id: address_route
+          uri: lb://ADDRESS
+          predicates:
+            - Path=/address/**
+        - id: auth_route
+          uri: lb://AUTHSERVICE
+          predicates:
+            - Path=/auth/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true

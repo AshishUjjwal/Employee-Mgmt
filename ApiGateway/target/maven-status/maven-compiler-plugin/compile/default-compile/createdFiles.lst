@@ -1,0 +1,4 @@
+com\microservice\ApiGateway\filter\AuthenticationFilter.class
+com\microservice\ApiGateway\filter\RouteValidator.class
+com\microservice\ApiGateway\config\GatewayConfig.class
+com\microservice\ApiGateway\ApiGatewayApplication.class
