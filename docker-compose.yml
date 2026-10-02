@@ -44,6 +44,8 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
+      - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
+      - EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS=60
     depends_on:
       - eureka-server
 
@@ -59,6 +61,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/auth_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
+      - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
+      - EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS=60
     depends_on:
       mysql-server:
         condition: service_healthy
@@ -77,6 +81,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/employee_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
+      - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
+      - EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS=60
     depends_on:
       mysql-server:
         condition: service_healthy
@@ -95,6 +101,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/address_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
+      - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
+      - EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS=60
     depends_on:
       mysql-server:
         condition: service_healthy
