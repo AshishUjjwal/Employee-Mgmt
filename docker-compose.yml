@@ -1,9 +1,17 @@
 version: '3.8'
 
+networks:
+  employee-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1350
+
 services:
   mysql-server:
     image: mysql:8.0
     container_name: mysql-server
+    networks:
+      - employee-net
     environment:
       MYSQL_ROOT_PASSWORD: Root@1234
     ports:
@@ -17,6 +25,8 @@ services:
   eureka-server:
     build: ./EurekaServer
     container_name: eureka-server
+    networks:
+      - employee-net
     ports:
       - "8761:8761"
     environment:
@@ -26,6 +36,8 @@ services:
   api-gateway:
     build: ./ApiGateway
     container_name: api-gateway
+    networks:
+      - employee-net
     restart: on-failure
     ports:
       - "9090:9090"
@@ -38,6 +50,8 @@ services:
   auth-service:
     build: ./AuthService
     container_name: auth-service
+    networks:
+      - employee-net
     restart: on-failure
     ports:
       - "8083:8083"
@@ -54,6 +68,8 @@ services:
   employee-service:
     build: ./Employee
     container_name: employee-service
+    networks:
+      - employee-net
     restart: on-failure
     ports:
       - "8081:8081"
@@ -70,6 +86,8 @@ services:
   address-service:
     build: ./Address
     container_name: address-service
+    networks:
+      - employee-net
     restart: on-failure
     ports:
       - "8082:8082"
