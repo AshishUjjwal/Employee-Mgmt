@@ -9,7 +9,7 @@ services:
     ports:
       - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pRoot@1234"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,6 +25,7 @@ services:
   api-gateway:
     build: ./ApiGateway
     container_name: api-gateway
+    restart: on-failure
     ports:
       - "9090:9090"
     environment:
@@ -35,6 +36,7 @@ services:
   auth-service:
     build: ./AuthService
     container_name: auth-service
+    restart: on-failure
     ports:
       - "8083:8083"
     environment:
@@ -49,6 +51,7 @@ services:
   employee-service:
     build: ./Employee
     container_name: employee-service
+    restart: on-failure
     ports:
       - "8081:8081"
     environment:
@@ -63,6 +66,7 @@ services:
   address-service:
     build: ./Address
     container_name: address-service
+    restart: on-failure
     ports:
       - "8082:8082"
     environment:
