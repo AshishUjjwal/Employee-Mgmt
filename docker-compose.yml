@@ -21,6 +21,7 @@ services:
       - "8761:8761"
     environment:
       - EUREKA_INSTANCE_HOSTNAME=eureka-server
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
 
   api-gateway:
     build: ./ApiGateway
@@ -30,6 +31,7 @@ services:
       - "9090:9090"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
     depends_on:
       - eureka-server
 
@@ -42,6 +44,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/auth_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
     depends_on:
       mysql-server:
         condition: service_healthy
@@ -57,6 +60,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/employee_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
     depends_on:
       mysql-server:
         condition: service_healthy
@@ -72,6 +76,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/address_db?createDatabaseIfNotExist=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
     depends_on:
       mysql-server:
         condition: service_healthy
