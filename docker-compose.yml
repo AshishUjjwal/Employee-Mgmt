@@ -4,6 +4,7 @@ networks:
   employee-net:
     driver: bridge
     driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
       com.docker.network.driver.mtu: 1350
 
 services:
@@ -32,6 +33,7 @@ services:
     environment:
       - EUREKA_INSTANCE_HOSTNAME=eureka-server
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
+      - SERVER_ADDRESS=0.0.0.0
 
   api-gateway:
     build: ./ApiGateway
