@@ -1,0 +1,50 @@
+name: Microservices CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    # We use a matrix strategy to build all 5 microservices in parallel!
+    strategy:
+      matrix:
+        service: [EurekaServer, ApiGateway, AuthService, Employee, Address]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Build JAR with Maven
+      working-directory: ./${{ matrix.service }}
+      # Compiles the Java code into a .jar file (we skip tests here unless you have written them)
+      run: mvn clean package -DskipTests
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Convert Service Name to Lowercase (Docker Requirement)
+      id: lowercase_name
+      run: echo "SERVICE_LOWER=$(echo ${{ matrix.service }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./${{ matrix.service }}
+        push: true
+        # Pushes to DockerHub as: yourusername/eurekaserver:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.SERVICE_LOWER }}:latest
