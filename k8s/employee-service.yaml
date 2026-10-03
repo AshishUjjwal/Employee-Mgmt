@@ -15,6 +15,7 @@ spec:
       containers:
       - name: employee-service
         image: ashishujjwal/employee:latest
+        imagePullPolicy: Always
         env:
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://mysql-server:3306/employee_db?createDatabaseIfNotExist=true"
