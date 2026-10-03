@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: address-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: address-service
+  template:
+    metadata:
+      labels:
+        app: address-service
+    spec:
+      containers:
+      - name: address-service
+        image: ashishujjwal/address:latest
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql-server:3306/address_db?createDatabaseIfNotExist=true"
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: "http://eureka-server:8761/eureka/"
+        - name: JAVA_TOOL_OPTIONS
+          value: "-Xmx256m -Xms128m"
+        - name: EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS
+          value: "60"
+        - name: EUREKA_CLIENT_EUREKASERVER_READTIMEOUTSECONDS
+          value: "60"
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: address-service
+spec:
+  selector:
+    app: address-service
+  ports:
+    - port: 8082
+      targetPort: 8082
