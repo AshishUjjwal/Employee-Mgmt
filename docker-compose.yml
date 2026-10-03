@@ -23,6 +23,14 @@ services:
       timeout: 5s
       retries: 5
 
+  redis-server:
+    image: redis:alpine
+    container_name: redis-server
+    networks:
+      - employee-net
+    ports:
+      - "6379:6379"
+
   eureka-server:
     build: ./EurekaServer
     container_name: eureka-server
@@ -84,6 +92,8 @@ services:
       - "8081:8081"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-server:3306/employee_db?createDatabaseIfNotExist=true
+      - SPRING_DATA_REDIS_HOST=redis-server
+      - SPRING_DATA_REDIS_PORT=6379
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - JAVA_TOOL_OPTIONS=-Xmx256m -Xms128m
       - EUREKA_CLIENT_EUREKASERVER_CONNECTTIMEOUTSECONDS=60
